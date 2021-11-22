@@ -65,6 +65,20 @@ dbListFields(con, "penguins")
 SELECT * FROM penguins
 ```
 
+6. Erstelle eine Verbindung zum penguins Datensatz mittels der `tbl()` Funktion und erstelle ein Objekt mit dem Namen `penguins_tab`
+7. Schreibe das Objekt `penguins_tab` in einen neuen R Code-chunk und nutze die `collect()` Funktion um die Daten aus der Datenbank zu holen.
+
+
+```{r}
+
+penguins_tab <- tbl(con, "penguins")
+
+penguins_tab %>% 
+  collect()
+
+```
+
+
 ## Übung 3 - SQL Code schreiben
 
 1. Füge einen SQL Code-chunk hinzu mit einer Verbindung zum Objekt `con`
@@ -77,16 +91,30 @@ FROM penguins
 GROUP BY species, island
 ```
 
+4. Schreibe den SQL code aus dem vorherigen Code-chunk als R Code mit den dir bekannten Funktionen aus dem `{dplyr}` R Package
+5. Nutze die Funktion `collect()` um die Daten aus der Datenbank zu holen und speicher das Ergebnis als neues Objekt mit dem Namen `penguins_avg_dplyr`
+
+```{r}
+
+penguins_avg_dplyr <- penguins_tab %>% 
+  group_by(species, island) %>% 
+  summarise(
+    avg_bill = mean(bill_length_mm)
+  ) %>% 
+  collect()
+
+```
+
 ## Übung 4 - SQL Abruf als Objekt speichern
 
 1. Kopiere den Code-chunk aus der vorherigen Übung
-2. Im oberen Bereich des Code-chunks, füge nach "con" ein Komma ein und dann `output.var="penguins_avg"` um den Output des Code-chunks als Objekt in einer Arbeitsumgeung (Environment) zu speichern. Dies sollte folgendermassen aussehen:
+2. Im oberen Bereich des Code-chunks, füge nach "con" ein Komma ein und dann `output.var="penguins_avg_sql"` um den Output des Code-chunks als Objekt in einer Arbeitsumgeung (Environment) zu speichern. Dies sollte folgendermassen aussehen:
 
-`{sql connection=con, output.var="penguins_avg"}`
+`{sql connection=con, output.var="penguins_avg_sql"}`
 
-3. Führe den Code-chunk aus und überprüfe ob das Objekt `penguins_var` in deiner Arbeitsumgebung (Environment) auftaucht
+3. Führe den Code-chunk aus und überprüfe ob das Objekt `penguins_avg_sql` in deiner Arbeitsumgebung (Environment) auftaucht
 
-```{sql connection=con, output.var="penguins_avg"}
+```{sql connection=con, output.var="penguins_avg_sql"}
 SELECT species, island, AVG(bill_length_mm) AS avg_bill
 FROM penguins
 GROUP BY species, island
