@@ -120,3 +120,52 @@ FROM penguins
 GROUP BY species, island
 ```
 
+## Übung 5 - Credentials sicher speichern und nutzen
+
+1. Installiere folgende R Packages:
+2. Folge den Schritten in Rezept 10 im rstatsZH Kochbuch: https://github.com/rstatsZH/kochbuch/tree/main/10-credentials-renviron
+3. Installiere die nötigen Datenbank Treiber, hier für "MariaDB":
+    - `install.packages("RMariaDB")`
+4. Über die Funktion `dbConnect()` aus dem `{DBI}` R Package mit Datenbank verbinden
+5. Die Funktion `Sys.getenv()` nutzen um auf die gespeicherten Werte für "userid" und "pwd" zuzugreifen.
+
+```{r}
+
+con <- dbConnect(
+   
+   # Hier wird das Backend definiert
+   RMariaDB::MariaDB(),
+   
+   host = "relational.fit.cvut.cz", 
+   port = 3306,
+   
+   # Niemals Passwort in Skript speichern
+   username = Sys.getenv("userid"),
+   password = Sys.getenv("pwd"), 
+   
+   dbname = "sakila"
+)
+
+```
+
+## Übung 6
+
+Mit `dbplyr` mit den Daten weiter arbeiten. 
+
+```{r}
+
+dbListTables(con)
+dbListFields(con, "film")
+
+film_tab <- tbl(con, "film")
+film_tab
+
+film_tab %>% 
+   select(film_id, title, length) %>% 
+   filter(length > 180) %>% 
+   collect() 
+
+
+```
+
+

@@ -93,3 +93,29 @@ copy_to(con, penguins)
 3. Führe den Code-chunk aus und überprüfe ob das Objekt `penguins_avg_sql` in deiner Arbeitsumgebung (Environment) auftaucht
 
 **Diesen Text löschen und neuen Code-chunk hier erstellen**
+
+## Übung 5 - Credentials sicher speichern und nutzen
+
+1. Installiere folgende R Packages:
+2. Folge den Schritten in Rezept 10 im rstatsZH Kochbuch: https://github.com/rstatsZH/kochbuch/tree/main/10-credentials-renviron
+3. Installiere die nötigen Datenbank Treiber, hier für "MariaDB":
+    - `install.packages("RMariaDB")`
+4. Über die Funktion `dbConnect()` aus dem `{DBI}` R Package mit Datenbank verbinden
+5. Die Funktion `Sys.getenv()` nutzen um auf die gespeicherten Werte für "userid" und "pwd" zuzugreifen.
+
+```{r}
+
+
+```
+
+## Übung 6
+
+Mit `dbplyr` mit den Daten weiter arbeiten. 
+
+```{r}
+
+
+
+```
+
+
